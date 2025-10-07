@@ -1,0 +1,1054 @@
+/* Reset & base mobile-first */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    /* 💬 CORREÇÃO: Garantir que body possa scrollar normalmente */
+    overflow-x: hidden;
+}
+
+:root {
+    /* Cores principais */
+    --primary-blue: #0d3c75;
+    --secondary-blue: #104a8b;
+    --dark-blue: #062f51;
+    --light-blue: #e3f2fd;
+    --accent-blue: #90caf9;
+
+    /* Cores de feedback */
+    --correct: #43a047;
+    --correct-dark: #2e7d32;
+    --semi-correct: #fbc02d;
+    --semi-correct-dark: #f9a825;
+    --wrong: #37474f;
+    --wrong-dark: #263238;
+
+    /* Layout mobile-first */
+    --max-width: 500px;
+    --header-height: 60px;
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Células responsivas */
+    --cell-size: min(16vw, 58px);
+    --cell-gap: 4px;
+
+    /* Teclado mobile - CORRIGIDOS OS VALORES */
+    --key-size: min(9vw, 50px);
+    --key-gap: 5px;
+    --special-key-width: 1.5;
+}
+
+    body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    color: var(--light-blue);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: var(--safe-area-inset-bottom);
+    border: 2px solid rgba(144, 202, 249, 0.3);
+    /* 💬 CORREÇÃO: Scroll normal por padrão */
+    overflow-y: auto;
+}
+
+
+
+/* 💬 CORREÇÃO: Estado inicial dos menus ocultos */
+#drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 88%;
+    max-width: 340px;
+    transform: translateX(-100%);
+    /* Já começa oculto */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #08233b, var(--dark-blue));
+    color: var(--light-blue);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 20px;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    border-right: 3px solid rgba(144, 202, 249, 0.5);
+}
+
+/* 💬 MODAL MAIS LARGO E CENTRALIZADO */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    padding: 20px;
+    /* 💬 Espaço uniforme em todas as bordas */
+    box-sizing: border-box;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s ease;
+}
+
+/* 💬 CORREÇÃO: Modal quando aberto */
+.modal[aria-hidden="false"] {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* 💬 CORREÇÃO: Overlay começa oculto */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+    /* CORREÇÃO: Começa oculto */
+    display: none;
+}
+
+/* 💬 CORREÇÃO: Overlay quando visível */
+#overlay:not([hidden]) {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Header otimizado para mobile */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    padding: 0 16px;
+    background: rgba(6, 47, 81, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(144, 202, 249, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-left: 1px solid rgba(144, 202, 249, 0.2);
+    border-right: 1px solid rgba(144, 202, 249, 0.2);
+}
+
+header h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--light-blue);
+    text-align: center;
+    flex: 1;
+    text-shadow: 0 0 10px rgba(144, 202, 249, 0.5);
+}
+
+#menu-btn,
+.howto {
+    background: rgba(227, 242, 253, 0.1);
+    border: 2px solid rgba(144, 202, 249, 0.5);
+    color: var(--light-blue);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+#menu-btn:active,
+.howto:active {
+    background: rgba(227, 242, 253, 0.2);
+    transform: scale(0.95);
+    border-color: rgba(144, 202, 249, 0.8);
+}
+
+/* 💬 CORREÇÃO: Área principal com scroll adequado */
+/* Área principal do jogo - CORRIGIDA */
+main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 16px 12px 20px;
+    /* 💬 REDUZIDO o padding bottom */
+    overflow-y: auto;
+}
+
+#game-area {
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    padding: 16px;
+    margin: 8px;
+    backdrop-filter: blur(5px);
+}
+
+/* Grid otimizada para mobile */
+#grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cell-gap);
+    width: 100%;
+    align-items: center;
+}
+
+.linha {
+    display: flex;
+    gap: var(--cell-gap);
+    justify-content: center;
+    width: 100%;
+}
+
+.celula {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #a6d4ff, #90caf9);
+    border: 3px solid #bbdefb;
+    font-weight: 800;
+    font-size: min(6vw, 1.5rem);
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    user-select: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estados das células */
+.celula.correta {
+    background: var(--correct) !important;
+    border-color: var(--correct-dark) !important;
+    color: white !important;
+    box-shadow: 0 0 20px rgba(67, 160, 71, 0.4) !important;
+    animation: popIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-width: 3px;
+}
+
+.celula.semi-correta {
+    background: var(--semi-correct) !important;
+    border-color: var(--semi-correct-dark) !important;
+    color: #212121 !important;
+    box-shadow: 0 0 15px rgba(251, 192, 45, 0.3) !important;
+    animation: popIn 0.4s 0.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+    border-width: 3px;
+}
+
+.celula.errada {
+    background: var(--wrong) !important;
+    border-color: var(--wrong-dark) !important;
+    color: #eceff1 !important;
+    animation: popIn 0.4s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+    border-width: 3px;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Shake animation melhorada */
+.linha.shake {
+    animation: shake 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-4px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+/* TECLADO TOTALMENTE RESPONSIVO E BONITINHO */
+#keyboard {
+    width: calc(100% - 32px);
+    /* 💬 Reduz a largura para criar espaço nas laterais */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    background: transparent;
+    padding: 16px max(16px, 4vw);
+    border: 2px solid rgba(144, 202, 249, 0.4);
+    border-radius: 16px;
+    margin: 20px 16px 0;
+    /* 💬 Margem automática nas laterais */
+    box-sizing: border-box;
+    /* 💬 Centraliza o teclado */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.teclado-linha {
+    display: flex;
+    gap: 4px;
+    /* 💬 Gap menor para caber melhor */
+    justify-content: center;
+    width: 100%;
+    max-width: var(--max-width);
+}
+
+/* Teclas totalmente responsivas */
+.key {
+    flex: 1;
+    min-width: 28px;
+    /* 💬 Mínimo menor para mobile */
+    min-height: 42px;
+    /* 💬 Altura reduzida */
+    max-width: 44px;
+    /* 💬 Máximo ajustado */
+    border: 2px solid rgba(144, 202, 249, 0.6);
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 3.5vw, 0.9rem);
+    /* 💬 CLAMP para responsividade perfeita */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #cfe9ff, #90caf9);
+    color: var(--primary-blue);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    transition: all 0.15s ease;
+    touch-action: manipulation;
+    /* 💬 Garantir que o texto não quebre */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 2px 4px;
+}
+
+.key:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-color: rgba(144, 202, 249, 0.9);
+}
+
+/* Teclas especiais - CORRIGIDAS */
+.key.enter,
+.key.backspace {
+    flex: 1.4;
+    /* 💬 Flex menor para não estourar */
+    font-size: clamp(0.65rem, 3vw, 0.8rem);
+    /* 💬 Fonte menor para ENTER */
+    font-weight: 800;
+    min-width: 40px;
+    /* 💬 Mínimo maior para especiais */
+    max-width: 60px;
+    /* 💬 Máximo controlado */
+    /* 💬 Texto que cabe sempre */
+    padding: 2px 4px;
+}
+
+.key.enter {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: white;
+    border-color: rgba(100, 181, 246, 0.7);
+}
+
+.key.backspace {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    color: white;
+    border-color: rgba(239, 154, 154, 0.7);
+}
+
+/* 💬 Estados do teclado - mantém responsividade */
+.key.correta {
+    background: var(--correct) !important;
+    color: white !important;
+    box-shadow: 0 2px 6px rgba(67, 160, 71, 0.4) !important;
+    border-color: var(--correct-dark) !important;
+}
+
+.key.semi-correta {
+    background: var(--semi-correct) !important;
+    color: #212121 !important;
+    box-shadow: 0 2px 6px rgba(251, 192, 45, 0.4) !important;
+    border-color: var(--semi-correct-dark) !important;
+}
+
+.key.errada {
+    background: var(--wrong-dark) !important;
+    color: #90a4ae !important;
+    box-shadow: none !important;
+    border-color: var(--wrong) !important;
+}
+
+/* 💬 CORREÇÃO: Sistema de mensagens com melhor espaçamento */
+#message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: var(--max-width);
+    margin-bottom: 20px;
+    /* Espaço extra para não sobrepor teclado */
+}
+
+#message-area {
+    min-height: 1.4em;
+    font-weight: 700;
+    text-align: center;
+    color: var(--light-blue);
+    padding: 12px 20px;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    border: 2px solid transparent;
+}
+
+#message-area.victory {
+    background: linear-gradient(135deg, var(--correct), #66bb6a);
+    color: white;
+    box-shadow: 0 6px 24px rgba(67, 160, 71, 0.4);
+    animation: celebrate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.1rem;
+    border-color: var(--correct-dark);
+}
+
+#message-area.defeat {
+    background: linear-gradient(135deg, var(--wrong), #546e7a);
+    color: #eceff1;
+    box-shadow: 0 6px 24px rgba(55, 71, 79, 0.4);
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1rem;
+    border-color: var(--wrong-dark);
+}
+
+#message-area.error {
+    background: rgba(255, 180, 180, 0.1);
+    color: #ffb4b4;
+    border: 2px solid rgba(255, 180, 180, 0.4);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes celebrate {
+    0% {
+        transform: scale(0.9) rotate(-2deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.02) rotate(2deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 💬 CORREÇÃO: Footer com melhor posicionamento */
+#rodape {
+    width: 100%;
+    text-align: center;
+    padding: 16px 0 8px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 10;
+}
+
+#restart-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: 2px solid rgba(144, 202, 249, 0.6);
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: var(--light-blue);
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+    transition: all 0.3s ease;
+    min-height: 44px;
+    margin-bottom: 12px;
+}
+
+#restart-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(25, 118, 210, 0.4);
+    border-color: rgba(144, 202, 249, 0.9);
+}
+
+.assinatura-final {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #a7c7f7;
+    margin-top: 8px;
+    font-weight: 500;
+    opacity: 0.8;
+    border-top: 1px solid rgba(144, 202, 249, 0.2);
+    padding-top: 8px;
+    width: 100%;
+}
+
+/* Drawer quando aberto */
+#drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(144, 202, 249, 0.3);
+}
+
+.drawer-header h2 {
+    font-size: 1.4rem;
+    color: #bbdefb;
+    text-shadow: 0 0 8px rgba(144, 202, 249, 0.4);
+}
+
+.drawer-body ul {
+    list-style: none;
+    margin: 0 0 28px 0;
+}
+
+.drawer-body li {
+    margin-bottom: 12px;
+}
+
+.drawer-body a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 18px;
+    border-radius: 10px;
+    display: block;
+    border-left: 4px solid transparent;
+    border: 2px solid rgba(144, 202, 249, 0.3);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    background: rgba(144, 202, 249, 0.05);
+}
+
+.drawer-body a::before {
+    content: "★ ";
+    color: #ffd700;
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+.drawer-body a:active {
+    color: white;
+    background: rgba(227, 242, 253, 0.12);
+    border-left-color: var(--accent-blue);
+    transform: translateX(4px);
+    border-color: rgba(144, 202, 249, 0.7);
+}
+
+#close-drawer {
+    background: rgba(227, 242, 253, 0.1);
+    border: 2px solid var(--light-blue);
+    color: var(--light-blue);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#close-drawer:active {
+    background: rgba(227, 242, 253, 0.25);
+    transform: rotate(90deg);
+    border-color: rgba(144, 202, 249, 0.8);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* 💬 CORREÇÃO: Modal content com scroll interno */
+.modal-content {
+    width: min(90%, 500px);
+    /* 💬 MAIS LARGO (era 400px) */
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: var(--dark-blue);
+    border-radius: 16px;
+    padding: 28px 24px;
+    /* 💬 Mais padding interno */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid rgba(144, 202, 249, 0.6);
+    /* 💬 CENTRALIZADO AUTOMATICAMENTE */
+    margin: 0 auto;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-content h2 {
+    color: var(--primary-blue);
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    text-shadow: 0 0 5px rgba(144, 202, 249, 0.3);
+}
+
+.modal-content ul {
+    list-style: none;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.modal-content li {
+    margin-bottom: 12px;
+    padding-left: 8px;
+    border-left: 2px solid rgba(144, 202, 249, 0.3);
+}
+
+.modal-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#close-howto {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: white;
+    border: 2px solid rgba(144, 202, 249, 0.6);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    min-width: 120px;
+}
+
+#close-howto:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(25, 118, 210, 0.4);
+    border-color: rgba(144, 202, 249, 0.9);
+}
+
+.pix-frame {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pix-frame pre {
+    font-family: 'Courier New', monospace;
+    color: var(--accent-blue);
+    font-size: 0.75rem;
+    margin: 0;
+    line-height: 1.3;
+    background: rgba(227, 242, 253, 0.05);
+    padding: 1px;
+    border-radius: 10px;
+    border: 2px solid rgba(144, 202, 249, 0.3);
+}
+
+.drawer-footer {
+    margin-top: auto;
+    text-align: center;
+    padding-top: 24px;
+    border-top: 2px solid rgba(144, 202, 249, 0.3);
+}
+
+#qrpix {
+    width: 80%;
+    max-width: 220px;
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(144, 202, 249, 0.5);
+}
+
+.assinatura {
+    font-size: 0.9rem;
+    color: var(--light-blue);
+    opacity: 0.8;
+    font-style: italic;
+    border-top: 1px solid rgba(144, 202, 249, 0.2);
+    padding-top: 12px;
+}
+
+/* Media queries para tablets e desktop */
+@media (min-width: 768px) {
+    :root {
+        --max-width: 520px;
+        --cell-size: min(60px, 8vw);
+        --key-size: min(52px, 7vw);
+    }
+
+    header {
+        padding: 0 24px;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    .celula {
+        border-radius: 10px;
+        font-size: 1.5rem;
+    }
+
+    /* Teclado no desktop fica normal, não fixo */
+    #keyboard {
+        position: relative;
+        background: transparent;
+        padding: 20px 0;
+        border-top: none;
+        backdrop-filter: none;
+        border: 2px solid rgba(144, 202, 249, 0.3);
+        border-radius: 12px;
+        margin-top: 20px;
+        padding: 16px 20px;
+        /* Era 16px 12px, agora 16px 20px */
+        border: 2px solid rgba(144, 202, 249, 0.4);
+        border-radius: 16px;
+        margin: 20px 16px 0;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .key {
+        border-radius: 8px;
+        font-size: 1rem;
+        max-width: 60px;
+    }
+
+    .key.enter,
+    .key.backspace {
+        max-width: 80px;
+    }
+
+    .key:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        border-color: rgba(144, 202, 249, 0.8);
+    }
+
+    #restart-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(25, 118, 210, 0.5);
+        border-color: rgba(144, 202, 249, 0.8);
+    }
+
+    .drawer-body a:hover {
+        color: white;
+        background: rgba(227, 242, 253, 0.12);
+        border-left-color: var(--accent-blue);
+        transform: translateX(4px);
+        border-color: rgba(144, 202, 249, 0.7);
+    }
+
+    #close-drawer:hover {
+        background: rgba(227, 242, 253, 0.25);
+        transform: rotate(90deg);
+        border-color: rgba(144, 202, 249, 0.8);
+    }
+
+    #close-howto:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(25, 118, 210, 0.5);
+        border-color: rgba(144, 202, 249, 0.8);
+    }
+}
+/* 💬 CORREÇÕES ESPECÍFICAS PARA MOBILE PEQUENO */
+@media (max-width: 380px) {
+    #keyboard {
+        padding: 10px 6px;
+        gap: 4px;
+    }
+
+    .teclado-linha {
+        gap: 3px;
+    }
+
+    .key {
+        min-width: 24px;
+        min-height: 38px;
+        max-width: 38px;
+        font-size: 0.7rem;
+        border-radius: 4px;
+    }
+
+    .key.enter,
+    .key.backspace {
+        min-width: 36px;
+        max-width: 52px;
+        font-size: 0.65rem;
+        flex: 1.3;
+    }
+
+    /* 💬 Correção específica para texto ENTER */
+    .key.enter {
+        font-size: 0.6rem;
+        padding: 1px 3px;
+    }
+}
+
+/* 💬 CORREÇÃO PARA TELAS MUITO PEQUENAS */
+@media (max-width: 320px) {
+    .key {
+        min-width: 22px;
+        min-height: 36px;
+        max-width: 34px;
+        font-size: 0.65rem;
+    }
+
+    .key.enter,
+    .key.backspace {
+        min-width: 32px;
+        max-width: 48px;
+        font-size: 0.6rem;
+    }
+
+    .key.enter {
+        font-size: 0.55rem;
+    }
+}
+/* Suporte para modo escuro do sistema */
+@media (prefers-color-scheme: dark) {
+    .modal-content {
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+        color: #e2e8f0;
+    }
+
+    .modal-content h2 {
+        color: #90cdf4;
+    }
+}
+
+/* Prevenir zoom em inputs no iOS */
+@media screen and (max-width: 768px) {
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+}
+
+/* 💬 CORREÇÃO ESPECIAL PARA ENTER EM MOBILE */
+@media (max-width: 480px) {
+    .key.enter {
+        position: relative;
+        font-size: 0;
+        /* Esconde o texto */
+    }
+
+    .key.enter::before {
+        content: "↵";
+        /* Símbolo de enter */
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        font-weight: bold;
+        color: white;
+    }
+}
+
+/* 💬 Versão ainda menor para telas muito pequenas */
+@media (max-width: 360px) {
+    .key.enter::before {
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
+    }
+}
+
+@media (max-width: 380px) {
+    #keyboard {
+        width: calc(100% - 24px);
+        /* 💬 Menos espaço nas laterais no mobile */
+        margin: 20px 12px 0;
+        /* 💬 Margem reduzida */
+        padding: 12px 8px;
+    }
+}
+
+@media (max-width: 320px) {
+    #keyboard {
+        width: calc(100% - 20px);
+        /* 💬 Ainda menos espaço */
+        margin: 20px 10px 0;
+        padding: 10px 6px;
+    }
+}
+/* 💬 MAIS ESPAÇO EM MOBILE PEQUENO */
+@media (max-width: 380px) {
+    .modal {
+        padding: 16px 12px;
+        /* 💬 Mais espaço nas bordas da tela */
+    }
+
+    .modal-content {
+        width: min(96%, 380px);
+        /* 💬 Quase encosta, mas não gruda */
+        padding: 20px 16px;
+        /* 💬 Padding interno reduzido */
+        border-radius: 14px;
+    }
+}
+
+/* 💬 MOBILE - AINDA MAIS LARGO */
+@media (max-width: 768px) {
+    .modal-content {
+        width: min(94%, 480px);
+        /* 💬 Quase ocupa toda a largura */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        padding: 16px;
+        /* 💬 Menos espaço nas bordas da tela */
+    }
+
+    .modal-content {
+        width: min(96%, 460px);
+        /* 💬 Ainda mais largo no mobile */
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 380px) {
+    .modal {
+        padding: 12px;
+        /* 💬 Pouco espaço nas bordas */
+    }
+
+    .modal-content {
+        width: min(98%, 440px);
+        /* 💬 Quase 100% da largura */
+        padding: 20px 16px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.3rem;
+    }
+
+    .modal-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    #keyboard {
+        width: calc(100% - 24px);
+        margin: 20px 12px 0;
+        /* 💬 Padding reduzido mas proporcional */
+        padding: 12px 16px;
+        /* Era 12px 8px */
+    }
+}
+
+@media (max-width: 320px) {
+    #keyboard {
+        width: calc(100% - 20px);
+        margin: 20px 10px 0;
+        /* 💬 Ainda com espaço lateral */
+        padding: 10px 14px;
+        /* Era 10px 6px */
+    }
+}
+
+/* 💬 TELAS MÉDIAS - Reduz um pouco o padding */
+@media (max-width: 420px) {
+    #keyboard {
+        padding: 16px 16px;
+    }
+}
+
+/* 💬 TELAS PEQUENAS - Padding mínimo seguro */
+@media (max-width: 380px) {
+    #keyboard {
+        width: calc(100% - 24px);
+        margin: 20px 12px 0;
+        padding: 12px 12px;
+        /* 💬 Padding igual em todos os lados */
+    }
+}
+
+/* 💬 TELAS MUITO PEQUENAS - Prioriza as teclas */
+@media (max-width: 320px) {
+    #keyboard {
+        width: calc(100% - 16px);
+        /* 💬 Menos margem externa */
+        margin: 20px 8px 0;
+        padding: 10px 8px;
+        /* 💬 Padding mínimo */
+    }
+
+    /* 💬 Reduz gap entre teclas para compensar */
+    .teclado-linha {
+        gap: 3px;
+    }
+}

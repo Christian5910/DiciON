@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DiciON :3</title>
+  <link rel="stylesheet" href="colorido.css">
+  <script defer src="javinhas.js"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007ACC">
+  <link rel="icon" href="/assets/favicon.ico">
+
+</head>
+<body>
+  <header>
+    <button id="menu-btn" aria-label="Abrir menu" type="button">☰</button>
+    <h1>DiciON!</h1>
+    <button id="howto-btn" class="howto" type="button" aria-haspopup="dialog">Como Jogar</button>
+  </header>
+
+  <!-- Drawer lateral -->
+  <aside id="drawer" aria-hidden="true" aria-label="Menu lateral">
+    <div class="drawer-header">
+      <h2>🌟 Minhas redes</h2>
+      <button id="close-drawer" aria-label="Fechar menu" type="button">✕</button>
+    </div>
+
+    <nav class="drawer-body" aria-label="Links">
+      <ul>
+        <li><a href="https://www.youtube.com/channel/UCOoD6oM_u5qsThPoeOvJ7NA" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://musescore.com/user/97699513" target="_blank" rel="noopener">MuseScore</a></li>
+        <li><a href="https://www.instagram.com/chris_speccy/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="mailto:christianoliveira5910@gmail.com">Meu Email</a></li>
+      </ul>
+    </nav>
+
+    <div class="drawer-footer">
+      <div class="pix-frame" aria-hidden="true">
+<pre>
+╔═══════════════•⊱✦⊰•═══════════════╗
+Me manda um pix?     ฅ^>⩊<^ ฅ
+╚═══════════════•⊱✦⊰•═══════════════╝
+</pre>
+      </div>
+      <div class="qr-wrap">
+        <img src="assets/qrpix.png" alt="QR Pix - Apoie o criador" id="qrpix">
+      </div>
+      <div class="assinatura">✩₊˚.⋆ Somos o Universo! ⋆⁺₊✧</div>
+    </div>
+  </aside>
+
+  <div id="overlay" hidden></div>
+
+  <!-- Modal "Como Jogar" -->
+  <div id="howto-modal" class="modal" aria-hidden="true" role="dialog" aria-label="Como jogar DiciON">
+    <div class="modal-content" role="document" aria-modal="true">
+      <h2>Como Jogar DiciON! :3</h2>
+      <p>Adivinhe a palavra secreta de 5 letras em até 6 tentativas. É como um quebra-cabeça diário pra treinar o cérebro!</p>
+      <br>
+      <ul>
+        <li><strong>Digite sua tentativa:</strong> Use o teclado virtual ou o físico (se tiver). <br> Preencha as 5 letras e aperte ENTER pra enviar.</li>
+        <li><strong>Feedback das cores:</strong><br>Verde = letra e posição certas; <br>Amarelo = letra existe, mas posição errada; <br>Cinza = letra não tá na palavra.</li>
+        <li><strong>Dicas extras:</strong> Palavras sempre em português. Se errar (palavra inválida ou incompleta), a linha treme pra avisar.</li>
+        <li><strong>Teclado aprende:</strong> As teclas mudam de cor com base no que você descobriu — verde pra certas, amarelo pra "talvez", cinza pra descartar.</li>
+      </ul>
+      <div class="modal-actions">
+        <button id="close-howto" type="button">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Área do jogo -->
+  <main id="main">
+    <section id="game-area">
+      <div id="grid" aria-label="grade do jogo"></div>
+
+      <div id="keyboard" aria-label="teclado virtual"></div>
+
+      <div id="message-container">
+        <div id="message-area" role="status" aria-live="polite"></div>
+      </div>
+      <footer id="rodape">
+        <button id="restart-btn" type="button">Reiniciar</button>
+        <p class="assinatura-final">© Christian, 2025</p>
+      </footer>
+    </section>
+  </main>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/service-worker.js")
+        .then(() => console.log("✅ Service Worker do DiciON registrado!"))
+        .catch(err => console.error("❌ Falha ao registrar o Service Worker:", err));
+    }
+  </script>
+</body>
+</html>
